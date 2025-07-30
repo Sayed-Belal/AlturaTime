@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AlturaTime</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Nunito for headings, Lato for body (Google Fonts) -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand: #41b3a3;
+      --brand-dark: #2a9078;
+      --brand-light: #dffaf4;
+      --card-bg: #fdfcfa;
+      --accent: #e27d60;
+      --accent-dark: #a84a35;
+      --text-main: #203040;
+      --text-soft: #4e5d6c;
+      --border: #c9e3db;
+      --bg: #f8fafb;
+      --call-safe: #5fb878;
+      --call-maybe: #ffd166;
+      --call-avoid: #ef476f;
+      --call-maybe-text: #745800;
+      --shadow: 0 4px 30px rgba(65, 179, 163, 0.08);
+    }
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      margin: 0;
+      font-family: 'Lato', Arial, sans-serif;
+      min-height: 100vh;
+    }
+    header {
+      padding: 38px 0 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .brand-box {
+      background: var(--brand);
+      color: #fff;
+      font-family: 'Nunito', Arial, sans-serif;
+      font-weight: 900;
+      font-size: 1.25rem;
+      letter-spacing: 2px;
+      border-radius: 3px 18px 3px 18px;
+      margin-left: 48px;
+      padding: 12px 36px 10px 32px;
+      box-shadow: 0 1px 12px rgba(65,179,163,0.08);
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .brand-box:hover {
+      background: var(--brand-dark);
+    }
+    main {
+      margin: 0 auto;
+      max-width: 1100px;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .main-title {
+      font-family: 'Nunito', Arial, sans-serif;
+      font-size: 2.7rem;
+      font-weight: 900;
+      margin-top: 35px;
+      margin-bottom: 10px;
+      text-align: center;
+      letter-spacing: 1px;
+      color: var(--brand-dark);
+    }
+    .sub-title {
+      font-size: 1.19rem;
+      font-family: 'Lato', Arial, sans-serif;
+      font-weight: 400;
+      margin: 0 0 28px 0;
+      text-align: center;
+      color: var(--text-soft);
+    }
+    .clock-list-section {
+      width: 100%;
+      margin: 0 auto 36px auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      justify-content: center;
+      align-items: flex-end;
+    }
+    .clock-card {
+      background: var(--card-bg);
+      border: 2.1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      min-width: 225px;
+      padding: 28px 24px 18px 24px;
+      text-align: center;
+      position: relative;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .clock-card:hover {
+      box-shadow: 0 8px 36px rgba(65,179,163,0.11);
+      border-color: var(--brand);
+    }
+    .clock-card .delete-btn {
+      position: absolute;
+      top: 14px; right: 16px;
+      background: transparent;
+      border: none;
+      color: #b9b9b9;
+      font-size: 1.17em;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s;
+    }
+    .clock-card .delete-btn:hover {
+      color: var(--accent-dark);
+    }
+    .clock-card .city-label {
+      font-family: 'Nunito', Arial, sans-serif;
+      font-size: 1.19em;
+      font-weight: 700;
+      margin-bottom: 2px;
+      letter-spacing: 0.5px;
+      color: var(--accent-dark);
+    }
+    .clock-card .zone-label {
+      font-size: 0.97em;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+    .clock-card .time {
+      font-family: 'Nunito', Arial, sans-serif;
+      font-size: 2.6em;
+      font-weight: 900;
+      margin: 6px 0 5px 0;
+      letter-spacing: 2px;
+      color: var(--brand-dark);
+    }
+    .clock-card .ampm {
+      font-family: 'Lato', Arial, sans-serif;
+      font-weight: 600;
+      font-size: 0.56em;
+      vertical-align: super;
+      letter-spacing: 0.8px;
+      color: var(--accent-dark);
+      padding-left: 2px;
+    }
+    .clock-card .date {
+      font-size: 1.02em;
+      margin-bottom: 2px;
+      color: var(--text-soft);
+      opacity: 0.88;
+    }
+    .clock-card .call-status {
+      font-size: 0.96em;
+      margin: 8px 0 2px 0;
+      color: #fff;
+      background: var(--call-avoid);
+      border-radius: 8px;
+      padding: 3px 14px;
+      display: inline-block;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      opacity: 0.96;
+      transition: background 0.2s;
+    }
+    .clock-card .call-status.safe {
+      background: var(--call-safe);
+    }
+    .clock-card .call-status.maybe {
+      background: var(--call-maybe);
+      color: var(--call-maybe-text);
+    }
+    .clock-card .note {
+      font-size: 0.96em;
+      color: var(--brand-dark);
+      opacity: 0.83;
+      font-weight: 600;
+    }
+
+    /* Add clock UI */
+    .add-clock-card {
+      background: var(--brand-light);
+      border: 2.3px dashed var(--brand);
+      border-radius: 18px;
+      box-shadow: 0 1px 10px rgba(65,179,163,0.04);
+      min-width: 235px;
+      padding: 18px 24px 10px 24px;
+      text-align: center;
+      position: relative;
+      margin-bottom: 0;
+      margin-top: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .add-clock-card select, .add-clock-card input {
+      font-size: 1.07em;
+      font-family: 'Lato', Arial, sans-serif;
+      padding: 8px 12px;
+      margin-bottom: 9px;
+      margin-right: 0;
+      border: 1.2px solid var(--brand);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 210px;
+      box-sizing: border-box;
+      transition: border 0.2s;
+      outline: none;
+      background: #fff;
+      color: var(--text-main);
+    }
+    .add-clock-card select:focus, .add-clock-card input:focus {
+      border-color: var(--accent);
+    }
+    .add-clock-card button {
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Nunito', Arial, sans-serif;
+      font-weight: 700;
+      font-size: 1.09em;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 32px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 2px;
+      letter-spacing: 0.3px;
+      box-shadow: 0 1px 6px rgba(226,125,96,0.08);
+    }
+    .add-clock-card button:hover {
+      background: var(--accent-dark);
+    }
+    .add-clock-card label {
+      margin-bottom: 3px;
+      font-size: 1em;
+      color: var(--brand-dark);
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      display: block;
+      text-align: left;
+    }
+
+    .tip {
+      margin: 2.3em auto 1.1em auto;
+      font-size: 1.01em;
+      color: var(--brand-dark);
+      background: #eafbf8;
+      border-radius: 10px;
+      padding: 0.8em 1.4em;
+      opacity: 0.97;
+      text-align: center;
+      border: 1.5px solid #b3e2d7;
+      font-family: 'Lato', Arial, sans-serif;
+      max-width: 600px;
+    }
+    footer {
+      text-align: center;
+      padding: 2em 0 1em 0;
+      font-size: 1em;
+      color: #a9b6b1;
+      opacity: 0.96;
+      font-family: 'Lato', Arial, sans-serif;
+      margin-top: 24px;
+    }
+    @media (max-width: 700px) {
+      .main-title { font-size: 2em;}
+      .clock-list-section { gap: 16px; }
+      .clock-card, .add-clock-card { min-width: unset; width: 98vw; box-sizing: border-box;}
+    }
+    @media (max-width: 500px) {
+      main { padding: 0 2vw; }
+      .brand-box { margin-left: 9px; font-size: 1.07rem;}
+      header { padding-top:13px;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    
+  </header>
+  <main>
+    <div class="main-title">AlturaTime: Timezone Connect</div>
+    <div class="sub-title">See the exact time for your loved ones. <span style="color:var(--accent)">Never call at the wrong hour again.</span></div>
+    <section class="clock-list-section">
+      <div id="clockList"></div>
+      <div id="addClockCard"></div>
+    </section>
+    <div class="tip">
+      <strong></strong> Add cities or countries for your family. All times update live.<br>
+      <span style="color:var(--accent-dark)">Your device must have correct time set for accuracy.</span>
+    </div>
+  </main>
+  <footer>
+    Made by SBM for all who are away from their loved one &mdash; AlturaTime
+  </footer>
+
+  <script>
+    // [IANA, Display Name, Example cities, GMT offset string]
+    const zones = [
+      ["Pacific/Auckland", "New Zealand (NZST/NZDT)", "Auckland", "+12:00"],
+["Pacific/Fiji", "Fiji (FJT)", "Suva", "+12:00"],
+["Australia/Sydney", "Australia (AEST/AEDT)", "Sydney", "+10:00"],
+["Asia/Tokyo", "Japan (JST)", "Tokyo", "+9:00"],
+["Asia/Seoul", "Korea (KST)", "Seoul", "+9:00"],
+["Asia/Singapore", "Singapore (SGT)", "Singapore", "+8:00"],
+["Asia/Shanghai", "China (CST)", "Shanghai, Beijing", "+8:00"],
+["Asia/Hong_Kong", "Hong Kong (HKT)", "Hong Kong", "+8:00"],
+["Australia/Perth", "Australia (AWST)", "Perth", "+8:00"],
+["Asia/Bangkok", "Thailand (ICT)", "Bangkok", "+7:00"],
+["Asia/Yangon", "Myanmar (MMT)", "Yangon", "+6:30"],
+["Asia/Kolkata", "India (IST)", "Delhi, Mumbai, Kolkata", "+5:30"],
+["Asia/Kathmandu", "Nepal (NPT)", "Kathmandu", "+5:45"],
+["Asia/Karachi", "Pakistan (PKT)", "Karachi", "+5:00"],
+["Asia/Riyadh", "Saudi Arabia (AST)", "Riyadh, Jeddah, Mecca", "+3:00"],
+["Europe/Istanbul", "Turkey (TRT)", "Istanbul", "+3:00"],
+["Europe/Moscow", "Russia (MSK)", "Moscow", "+3:00"],
+["Africa/Nairobi", "Kenya (EAT)", "Nairobi", "+3:00"],
+["Asia/Tehran", "Iran (IRST/IRDT)", "Tehran", "+3:30"],
+["Africa/Cairo", "Egypt (EET)", "Cairo", "+2:00"],
+["Europe/Kiev", "Ukraine (EET/EEST)", "Kiev", "+2:00"],
+["Asia/Jerusalem", "Israel (IST/IDT)", "Jerusalem", "+2:00"],
+["Europe/Berlin", "Germany (CET/CEST)", "Berlin, Frankfurt", "+1:00"],
+["Europe/Paris", "France (CET/CEST)", "Paris", "+1:00"],
+["Europe/Madrid", "Spain (CET/CEST)", "Madrid", "+1:00"],
+["Europe/Rome", "Italy (CET/CEST)", "Rome", "+1:00"],
+["Africa/Lagos", "Nigeria (WAT)", "Lagos", "+1:00"],
+["Asia/Dubai", "UAE (GST)", "Dubai, Abu Dhabi", "+4:00"],
+["Europe/London", "UK (London time)", "London", "+0:00/1:00"],
+["Africa/Casablanca", "Morocco (WET)", "Casablanca", "+0:00"],
+["Europe/Lisbon", "Portugal (WET/WEST)", "Lisbon", "+0:00"],
+["UTC", "UTC (no DST)", "Universal Coordinated Time", "+0:00"],
+["Etc/GMT", "GMT (no DST)", "Greenwich Mean Time", "+0:00"],
+["America/Sao_Paulo", "Brazil (BRT)", "Sao Paulo", "-3:00"],
+["America/Argentina/Buenos_Aires", "Argentina (ART)", "Buenos Aires", "-3:00"],
+["America/New_York", "USA (Eastern)", "New York, Washington DC", "-4:00"],
+["America/Toronto", "Canada (Eastern)", "Toronto", "-4:00"],
+["America/Chicago", "USA (Central)", "Chicago, Dallas", "-5:00"],
+["America/Mexico_City", "Mexico (Central)", "Mexico City", "-5:00"],
+["America/Bogota", "Colombia (COT)", "Bogota", "-5:00"],
+["America/Denver", "USA (Mountain)", "Denver", "-6:00"],
+["America/Edmonton", "Canada (Mountain)", "Edmonton", "-6:00"],
+["America/Los_Angeles", "USA (Pacific)", "Los Angeles, SF", "-7:00"],
+["America/Vancouver", "Canada (Pacific)", "Vancouver", "-7:00"],
+["Pacific/Honolulu", "Hawaii (HST)", "Honolulu", "-10:00"],
+
+    ];
+
+    function getGmtLabel(offset) {
+      let sign = offset.startsWith("-") ? "-" : "+";
+      let [h, m] = offset.replace("+","").replace("-","").split(":");
+      h = h.replace(/^0+/, "") || "0";
+      if(m === "00" || m === undefined) return `GMT${sign}${h}`;
+      return `GMT${sign}${h}:${m}`;
+    }
+
+    function getCallStatus(hour, minute) {
+      let mins = hour * 60 + minute;
+      if(mins >= 420 && mins <= 1290) return {status: "", class: "safe"};
+      if((mins > 1290 && mins <= 1380) || (mins >= 0 && mins < 420)) return {status: "", class: "avoid"};
+      return {status: "", class: "maybe"};
+    }
+    function getStatusNote(hour, minute) {
+      if(hour < 7) return "Very Early Morning";
+      if(hour < 12) return "Morning";
+      if(hour < 17) return "Afternoon";
+      if(hour < 21) return "Evening";
+      if(hour < 23) return "Night";
+      return "Late Night";
+    }
+
+    // Persistent locations
+    let locations = [];
+    if(localStorage.getItem("familyTimeLocationsModern")) {
+      try { locations = JSON.parse(localStorage.getItem("familyTimeLocationsModern")); } catch(e) {}
+    }
+    function saveLocations() {
+      localStorage.setItem("familyTimeLocationsModern", JSON.stringify(locations));
+    }
+
+    function addLocation() {
+      const tzSelect = document.getElementById('timezoneDropdown');
+      const tzValue = tzSelect.value;
+      const zoneData = zones.find(z=>z[0]===tzValue);
+      const zoneLabel = zoneData ? `${zoneData[1]}` : tzValue;
+      const zoneCities = zoneData ? zoneData[2] : "";
+      const gmtLabel = zoneData ? getGmtLabel(zoneData[3]) : "";
+      const customName = document.getElementById('customName').value.trim();
+      const displayName = customName || zoneLabel;
+      if(!tzValue) return alert("Choose a timezone.");
+      if(locations.find(l => l.tzValue === tzValue && l.displayName === displayName)) {
+        alert("This timezone/name is already added."); return;
+      }
+      locations.push({ tzValue, zoneLabel, zoneCities, displayName, gmtLabel });
+      saveLocations();
+      renderClocksOnly();
+      renderAddClockCard();
+      document.getElementById('customName').value = '';
+    }
+
+    function removeLocation(idx) {
+      const loc = locations[idx];
+      if(!confirm(`Are you sure you want to remove "${loc.displayName}"?`)) return;
+      locations.splice(idx, 1);
+      saveLocations();
+      renderClocksOnly();
+      renderAddClockCard();
+    }
+
+    function renderAddClockCard() {
+      let options = `<option value="">Select timezone...</option>`;
+      zones.forEach(z => {
+        options += `<option value="${z[0]}">${z[1]} (${getGmtLabel(z[3])})${z[2] ? ' — ' + z[2] : ''}</option>`;
+      });
+      document.getElementById('addClockCard').innerHTML = `
+        <div class="add-clock-card">
+          <label for="timezoneDropdown">Timezone</label>
+          <select id="timezoneDropdown">${options}</select>
+          <label for="customName">Label (optional)</label>
+          <input type="text" id="customName" placeholder="Display name (e.g. Mom in Istanbul)" />
+          <button onclick="addLocation()">Add</button>
+        </div>
+      `;
+    }
+
+    function renderClocksOnly() {
+      const list = document.getElementById('clockList');
+      list.innerHTML = "";
+      locations.forEach((loc, idx) => {
+        try {
+          const now = new Date();
+          const time = now.toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true, timeZone: loc.tzValue});
+          let [t12, ampm] = time.split(' ');
+          const date = now.toLocaleDateString('en-GB', {weekday:'long',year:'numeric',month:'long',day:'numeric', timeZone: loc.tzValue});
+          const localeParts = now.toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false, timeZone: loc.tzValue}).split(':');
+          let hour = parseInt(localeParts[0],10);
+          let minute = parseInt(localeParts[1],10);
+          let call = getCallStatus(hour, minute);
+          let note = getStatusNote(hour, minute);
+          list.innerHTML += `
+            <div class="clock-card">
+              <button class="delete-btn" onclick="removeLocation(${idx})" title="Remove">&times;</button>
+              <div class="city-label">${loc.displayName}</div>
+              <div class="zone-label">${loc.zoneLabel} ${loc.gmtLabel ? `<span style="color:#66b09a;font-size:0.98em;font-weight:bold;">(${loc.gmtLabel})</span>` : ""}
+                ${loc.zoneCities ? '<span style="color:#bbb"> — ' + loc.zoneCities + '</span>' : ''}
+              </div>
+              <div class="time">${t12}<span class="ampm">${ampm}</span></div>
+              <div class="date">${date}</div>
+              <div class="call-status ${call.class}">${call.status}</div>
+              <div class="note">${note}</div>
+            </div>
+          `;
+        } catch(e) {
+          list.innerHTML += `<div class="clock-card"><div style="color:#e74c3c;">Error displaying time!</div></div>`;
+        }
+      });
+    }
+
+    window.removeLocation = removeLocation;
+    window.addLocation = addLocation;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderClocksOnly();
+      renderAddClockCard();
+      setInterval(renderClocksOnly, 1000);
+    });
+  </script>
+</body>
+</html>
